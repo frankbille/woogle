@@ -13,12 +13,38 @@
  */
 package wicket.contrib.woogle.pages;
 
+import java.util.List;
+
+import wicket.contrib.woogle.WoogleApplication;
+import wicket.contrib.woogle.domain.Site;
+import wicket.markup.html.basic.Label;
 import wicket.markup.html.link.BookmarkablePageLink;
+import wicket.markup.html.link.ExternalLink;
+import wicket.markup.html.list.ListItem;
+import wicket.markup.html.list.ListView;
 
 public class FaqPage extends WoogleBasePage {
 	private static final long serialVersionUID = 1L;
 	
 	public FaqPage() {
+		// Sites
+		List<Site> sites = WoogleApplication.get().getSiteDAO().listActive();
+		add(new ListView("sites", sites) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void populateItem(ListItem item) {
+				Site site = (Site) item.getModelObject();
+				
+				ExternalLink link = new ExternalLink("link", site.getUrl());
+				item.add(link);
+				
+				link.add(new Label("label", site.getUrl()+" ("+site.getTitle()+")"));
+			}
+		});
+		
+		
+		// Misc link
 		add(new BookmarkablePageLink("addLink", AddSitePage.class));
 	}
 
