@@ -13,11 +13,13 @@
  */
 package wicket.contrib.woogle.pages;
 
+import wicket.markup.html.link.BookmarkablePageLink;
+
 public class FaqPage extends WoogleBasePage {
 	private static final long serialVersionUID = 1L;
 	
 	public FaqPage() {
-		
+		add(new BookmarkablePageLink("addLink", AddSitePage.class));
 	}
 
 }
