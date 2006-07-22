@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+<wicket:extend>
+
+	<div wicket:id="urlSend">
+		<p>
+			The URL:
+		</p>
+		
+		<pre wicket:id="url"></pre>
+		
+		<p>
+			has been send. When I have processed the url, it will
+			get indexed. The index is updated once a day.
+		</p>
+	
+		<hr />
+	</div>
+
+	<h2>Please note!</h2>
+
+	<p>Sites added here is processed manually. This is because I'm no
+	Nutch shark. If anyone knows how to build a automatic nutch daemon,
+	please let me know how to do it.</p>
+
+	<p>Pages are filtered by something in the url, which makes then
+	identifiable to being a Wicket page.</p>
+
+	<p>For example:<br />
+	http://www.mail-archive.com/wicket-user@lists.sourceforge.net/<br />
+	identifies that every url starting with this has something to do with
+	the Wicket User mailing list.</p>
+
+	<p>Therefor, please take your time, before submitting a site, to
+	ensure find out whether the site contains more Wicket related items,
+	which should be indexed and which could be indentified by the URL.</p>
+	
+	<form wicket:id="form">
+		URL:
+		<input type="text" wicket:id="url" style="width: 60%;" />
+		<input type="submit" wicket:id="send" />	
+	</form>
+
+</wicket:extend>
+</body>
+</html>

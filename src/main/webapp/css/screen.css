@@ -1,0 +1,163 @@
+html,body {
+	font-family: Verdana, Trebuchet MS, Arial, sans-serif;
+	font-size: 12px;
+}
+
+h1 {
+	text-align: center;
+}
+
+#outer {
+	width: 650px;
+	margin: auto;
+}
+
+.search {
+	text-align: center;
+}
+
+.hit {
+	width: 600px;
+	border: 1px solid silver;
+	margin-bottom: 20px;
+	padding-left: 20px;
+	cursor: pointer;
+	display: blocK;
+	text-decoration: none;
+	color: black;
+}
+
+.hit:hover {
+	background-color: #EEEEEE;
+}
+
+.hit h3 {
+	margin: 0px;
+	margin-bottom: 7px;
+	font-size: 14px;
+}
+
+.hit span {
+	font-size: 10px;
+	color: gray;
+	padding-top: 10px;
+	display: block;
+}
+
+.hit div {
+	font-size: 12px;
+}
+
+.irclogs {
+	background: url(../img/irclogs.png) no-repeat 4px 4px;
+	border-color: #999900;
+}
+
+.irclogs h3 {
+	color: #999900;
+}
+
+.wiki {
+	background: url(../img/wiki.png) no-repeat 4px 4px;
+	border-color: #009900;
+}
+
+.wiki h3 {
+	color: #009900;
+}
+
+.website {
+	background: url(../img/website.png) no-repeat 4px 4px;
+	border-color: #0000FF;
+}
+
+.website h3 {
+	color: #0000FF;
+}
+
+.javadoc {
+	background: url(../img/javadoc.png) no-repeat 4px 4px;
+	border-color: #FF0000;
+}
+
+.javadoc h3 {
+	color: #FF0000;
+}
+
+.mail {
+	background: url(../img/mail.png) no-repeat 4px 4px;
+	border-color: #9900FF;
+}
+
+.mail h3 {
+	color: #9900FF;
+}
+
+.blogs {
+	background: url(../img/blog.png) no-repeat 4px 4px;
+	border-color: #0099CC;
+}
+
+.blogs h3 {
+	color: #0099CC;
+}
+
+.paging {
+	margin: 0;
+	padding: 0;
+}
+
+.paging li {
+	display: inline;
+}
+
+.paging li a {
+	padding-top: 20px;
+	background: url(../img/wicket_logo_16x16.png) no-repeat top center;
+	font-size: 12px;
+	color: #e9601a;
+	text-decoration: none;
+	display: block;
+	width: 20px;
+	float: left;
+	text-align: center;
+}
+
+.paging li a:hover {
+	text-decoration: underline;
+}
+
+.menu {
+	text-align: center;
+}
+
+.menu a {
+	color: #e9601a;
+	padding-left: 5px;
+	padding-right: 5px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.menu a:hover {
+	text-decoration: underline;
+}
+
+.faq {
+	margin-bottom: 20px;
+}
+
+.faq .q {
+	font-weight: bold;
+	margin-bottom: 10px;
+	font-size: 14px;
+}
+
+.faq .a {
+	margin-left: 15px;
+	font-size: 12px;
+}
+
+.faq a {
+	color: #e9601a;
+}

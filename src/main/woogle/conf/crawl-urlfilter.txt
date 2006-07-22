@@ -1,0 +1,32 @@
+# The url filter file used by the crawl command.
+
+# Better for intranet crawling.
+# Be sure to change MY.DOMAIN.NAME to your domain name.
+
+# Each non-comment, non-blank line contains a regular expression
+# prefixed by '+' or '-'.  The first matching pattern in the file
+# determines whether a URL is included or ignored.  If no pattern
+# matches, the URL is ignored.
+
+# skip file:, ftp:, & mailto: urls
+-^(file|ftp|mailto):
+
+# skip image and other suffixes we can't yet parse
+-\.(gif|GIF|jpg|JPG|ico|ICO|css|sit|eps|wmf|zip|ppt|mpg|xls|gz|rpm|tgz|mov|MOV|exe|png|PNG)$
+
+# skip URLs containing certain characters as probable queries, etc.
+-[?*!@=]
+
+# Accept
+#+^http://ginandtonic.org/
+#+^http://www.wicket-wiki.org.uk
+#+^http://www.mail-archive.com/wicket-user%40lists.sourceforge.net
+#+^http://www.mail-archive.com/wicket-develop%40lists.sourceforge.net
+#+^http://wicket.sourceforge.net/apidocs/
+#-^http://www.wicketframework.org/.*apidocs
+#+^http://www.wicketframework.org/
++^http://billen.dk/2006/06/23/support-for-testing-an-ajaxlink-in-wickettesterclicklink/
+
+
+# skip everything else
+-.

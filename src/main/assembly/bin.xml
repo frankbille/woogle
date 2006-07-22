@@ -1,0 +1,51 @@
+<assembly>
+	<id>bin</id>
+	<formats>
+		<format>tar.gz</format>
+		<format>zip</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<fileSets>
+		<!-- Docs -->
+		<fileSet>
+			<includes>
+				<include>README*</include>
+				<include>LICENSE*</include>
+				<include>NOTICE*</include>
+			</includes>
+		</fileSet>
+		<!-- Bin -->
+		<fileSet>
+			<directory>src/main/woogle/bin</directory>
+			<outputDirectory>bin</outputDirectory>
+			<includes>
+				<include>*.sh</include>
+			</includes>
+		</fileSet>
+		<!-- Conf -->
+		<fileSet>
+			<directory>src/main/woogle/conf</directory>
+			<outputDirectory>conf</outputDirectory>
+		</fileSet>
+		<!-- Data -->
+		<fileSet>
+			<directory>src/main/woogle/data</directory>
+			<outputDirectory>data</outputDirectory>
+		</fileSet>
+		<!-- Log -->
+		<fileSet>
+			<directory>src/main/woogle/log</directory>
+			<outputDirectory>log</outputDirectory>
+		</fileSet>
+		<!-- Work -->
+		<fileSet>
+			<directory>src/main/woogle/work</directory>
+			<outputDirectory>work</outputDirectory>
+		</fileSet>
+		<!-- Woogle -->
+		<fileSet>
+			<directory>target/woogle-1.0-SNAPSHOT</directory>
+			<outputDirectory>woogle</outputDirectory>
+		</fileSet>
+	</fileSets>
+</assembly>

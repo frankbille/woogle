@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="wicket.contrib.woogle.domain.Site" table="site">
+		<id name="id" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="title" length="250" />
+        <property name="url" length="250" />
+        <property name="matchPattern" length="1024" column="match_pattern" />
+        <property name="cssClass" length="20" />
+        <property name="active" />
+    </class>
+
+</hibernate-mapping>
