@@ -25,6 +25,7 @@ h1 {
 	display: blocK;
 	text-decoration: none;
 	color: black;
+	overflow: hidden;
 }
 
 .hit:hover {
