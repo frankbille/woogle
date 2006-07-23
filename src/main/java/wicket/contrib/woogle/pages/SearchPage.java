@@ -20,7 +20,9 @@ import wicket.ajax.IAjaxIndicatorAware;
 import wicket.ajax.calldecorator.AjaxCallDecorator;
 import wicket.ajax.form.AjaxFormSubmitBehavior;
 import wicket.behavior.SimpleAttributeModifier;
+import wicket.contrib.woogle.WoogleApplication;
 import wicket.contrib.woogle.components.SearchResult;
+import wicket.contrib.woogle.domain.Search;
 import wicket.markup.html.WebComponent;
 import wicket.markup.html.form.Button;
 import wicket.markup.html.form.Form;
@@ -28,6 +30,7 @@ import wicket.markup.html.form.TextField;
 import wicket.markup.html.image.Image;
 import wicket.model.CompoundPropertyModel;
 import wicket.model.Model;
+import wicket.protocol.http.WebRequestCycle;
 
 public class SearchPage extends WoogleBasePage {
 	private static final long serialVersionUID = 1L;
@@ -60,6 +63,13 @@ public class SearchPage extends WoogleBasePage {
 
 				@Override
 				protected void onSubmit(AjaxRequestTarget target) {
+					// Save the search
+					WebRequestCycle wrc = (WebRequestCycle) getRequestCycle();
+					String ip = wrc.getWebRequest().getHttpServletRequest().getRemoteAddr();
+					search.setIp(ip);
+					WoogleApplication.get().getSearchDAO().save(search);
+					
+					// Show the result
 					SearchResult result = new SearchResult("result", search.getSearch());
 					
 					SearchPage.this.replace(result);
@@ -92,24 +102,6 @@ public class SearchPage extends WoogleBasePage {
 
 		public String getAjaxIndicatorMarkupId() {
 			return indicator.getMarkupId();
-		}
-	}
-	
-	
-	
-	private class Search {
-		private String search;
-
-		public Search(String search) {
-			this.search = search;
-		}
-
-		public void setSearch(String search) {
-			this.search = search;
-		}
-
-		public String getSearch() {
-			return search;
 		}
 	}
 }

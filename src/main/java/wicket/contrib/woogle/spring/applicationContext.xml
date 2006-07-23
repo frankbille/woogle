@@ -5,14 +5,12 @@
 <beans>
 	<bean id="placeholderConfig"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location"
-			value="classpath:woogle.properties" />
+		<property name="location" value="classpath:woogle.properties" />
 	</bean>
 
 	<bean id="hibernatePropertiesBean"
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-		<property name="location"
-			value="classpath:woogle.properties" />
+		<property name="location" value="classpath:woogle.properties" />
 	</bean>
 
 	<!-- Data source -->
@@ -43,6 +41,9 @@
 				<value>
 					wicket/contrib/woogle/dao/hibernate/Site.hbm.xml
 				</value>
+				<value>
+					wicket/contrib/woogle/dao/hibernate/Search.hbm.xml
+				</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -64,7 +65,7 @@
 		</property>
 	</bean>
 
- 	<bean id="siteDAO" parent="txProxyTemplate">
+	<bean id="siteDAO" parent="txProxyTemplate">
 		<property name="target">
 			<bean
 				class="wicket.contrib.woogle.dao.hibernate.SiteDAOHibernate">
@@ -73,11 +74,21 @@
 		</property>
 	</bean>
 
+	<bean id="searchDAO" parent="txProxyTemplate">
+		<property name="target">
+			<bean
+				class="wicket.contrib.woogle.dao.hibernate.SearchDAOHibernate">
+				<property name="sessionFactory" ref="sessionFactory" />
+			</bean>
+		</property>
+	</bean>
+
 	<bean id="wicketApplication"
 		class="wicket.contrib.woogle.WoogleApplication">
- 		<property name="siteDAO" ref="siteDAO" />
-			<property name="nutchDir">
-				<value>${nutch.data.dir}</value>
-			</property>
+		<property name="siteDAO" ref="siteDAO" />
+		<property name="searchDAO" ref="searchDAO" />
+		<property name="nutchDir">
+			<value>${nutch.data.dir}</value>
+		</property>
 	</bean>
 </beans>

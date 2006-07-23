@@ -23,6 +23,7 @@ import org.apache.nutch.searcher.Query;
 
 import wicket.ISessionFactory;
 import wicket.Session;
+import wicket.contrib.woogle.dao.SearchDAO;
 import wicket.contrib.woogle.dao.SiteDAO;
 import wicket.contrib.woogle.pages.AddSitePage;
 import wicket.contrib.woogle.pages.FaqPage;
@@ -39,12 +40,52 @@ public class WoogleApplication extends WebApplication {
 	/** Logging */
 	private static final Log log = LogFactory.getLog(WoogleApplication.class);
 	
-	private NutchBean nutch;
+	public static WoogleApplication get() {
+		return (WoogleApplication) WebApplication.get();
+	}
 	
-	private String nutchDir;
+	private NutchBean nutch;
 
+	private String nutchDir;
+	
 	private SiteDAO siteDAO;
 	
+	private SearchDAO searchDAO;
+
+	/**
+	 * @see wicket.Application#getHomePage()
+	 */
+	public Class getHomePage() {
+		return SearchPage.class;
+	}
+
+	public NutchBean getNutch() {
+		return nutch;
+	}
+
+	public String getNutchDir() {
+		return nutchDir;
+	}
+
+	public SearchDAO getSearchDAO() {
+		return searchDAO;
+	}
+
+	/**
+	 * @see wicket.protocol.http.WebApplication#getSessionFactory()
+	 */
+	public ISessionFactory getSessionFactory() {
+		return new ISessionFactory() {
+			public Session newSession() {
+				return new WoogleSession(WoogleApplication.this);
+			}
+		};
+	}
+
+	public SiteDAO getSiteDAO() {
+		return siteDAO;
+	}
+
 	@Override
 	protected void init() {
 		try {
@@ -60,45 +101,15 @@ public class WoogleApplication extends WebApplication {
 		mountBookmarkablePage("/add", AddSitePage.class);
 	}
 
-	public String getNutchDir() {
-		return nutchDir;
-	}
-
 	public void setNutchDir(String nutchDir) {
 		this.nutchDir = nutchDir;
 	}
-
-	public SiteDAO getSiteDAO() {
-		return siteDAO;
+	
+	public void setSearchDAO(SearchDAO searchDAO) {
+		this.searchDAO = searchDAO;
 	}
 
 	public void setSiteDAO(SiteDAO siteDAO) {
 		this.siteDAO = siteDAO;
-	}
-
-	/**
-	 * @see wicket.Application#getHomePage()
-	 */
-	public Class getHomePage() {
-		return SearchPage.class;
-	}
-
-	public static WoogleApplication get() {
-		return (WoogleApplication) WebApplication.get();
-	}
-	
-	public NutchBean getNutch() {
-		return nutch;
-	}
-
-	/**
-	 * @see wicket.protocol.http.WebApplication#getSessionFactory()
-	 */
-	public ISessionFactory getSessionFactory() {
-		return new ISessionFactory() {
-			public Session newSession() {
-				return new WoogleSession(WoogleApplication.this);
-			}
-		};
 	}
 }

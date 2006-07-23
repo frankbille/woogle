@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="wicket.contrib.woogle.domain.Search" table="search">
+		<id name="id" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="search" type="text" />
+        <property name="searchTime" column="search_time" type="timestamp" />
+        <property name="ip" length="15" />
+    </class>
+
+</hibernate-mapping>
