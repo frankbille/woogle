@@ -28,7 +28,9 @@ public class SearchDAOHibernate extends HibernateDaoSupport implements
 
 	@SuppressWarnings("unchecked")
 	public List<Search> listTopSearches() {
-		String hql = "SELECT s FROM Search s GROUP BY s.search ORDER BY COUNT(s.search) DESC LIMIT 10";
+		String hql = "SELECT s FROM Search s GROUP BY s.search ORDER BY COUNT(s.search) DESC";
+		
+		getHibernateTemplate().setMaxResults(10);
 		
 		return getHibernateTemplate().find(hql);
 	}
