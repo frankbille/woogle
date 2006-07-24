@@ -9,21 +9,17 @@ public class Search {
 
 	private Date searchTime;
 
-	private String ip;
+	private String sessionId;
 
 	public Search() {
 	}
-	
+
 	public Search(String search) {
 		this.search = search;
 	}
-	
+
 	public Long getId() {
 		return id;
-	}
-
-	public String getIp() {
-		return ip;
 	}
 
 	public String getSearch() {
@@ -34,12 +30,12 @@ public class Search {
 		return searchTime;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public String getSessionId() {
+		return sessionId;
 	}
 
-	public void setIp(String ip) {
-		this.ip = ip;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public void setSearch(String search) {
@@ -48,5 +44,9 @@ public class Search {
 
 	public void setSearchTime(Date searchTime) {
 		this.searchTime = searchTime;
+	}
+
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
 	}
 }

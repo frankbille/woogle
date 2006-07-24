@@ -99,6 +99,7 @@ public class WoogleApplication extends WebApplication {
 		
 		mountBookmarkablePage("/faq", FaqPage.class);
 		mountBookmarkablePage("/add", AddSitePage.class);
+		mount("/q", new SearchUrlCodingStrategy());
 	}
 
 	public void setNutchDir(String nutchDir) {
