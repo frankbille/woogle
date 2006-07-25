@@ -26,13 +26,16 @@ import org.apache.nutch.searcher.Hits;
 import org.apache.nutch.searcher.NutchBean;
 import org.apache.nutch.searcher.Query;
 
+import wicket.PageParameters;
 import wicket.ajax.AjaxRequestTarget;
 import wicket.ajax.markup.html.AjaxLink;
 import wicket.behavior.SimpleAttributeModifier;
 import wicket.contrib.woogle.WoogleApplication;
 import wicket.contrib.woogle.domain.Site;
+import wicket.contrib.woogle.pages.SearchPage;
 import wicket.extensions.markup.html.repeater.RepeatingView;
 import wicket.markup.html.basic.Label;
+import wicket.markup.html.link.BookmarkablePageLink;
 import wicket.markup.html.link.ExternalLink;
 import wicket.markup.html.list.Loop;
 import wicket.markup.html.panel.Panel;
@@ -71,6 +74,12 @@ public class SearchResult extends Panel {
 		this.hits = hits;
 		this.query = query;
 
+		// Trackback
+		PageParameters parameters = new PageParameters();
+		parameters.add("search", searchString);
+		add(new BookmarkablePageLink("trackback", SearchPage.class, parameters));
+		
+		
 		// Stats
 		String stats = "Showing "+(offset+1)+"-"+(offset+10)+" of "+hits.getLength();
 		add(new Label("stats", stats));
