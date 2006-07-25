@@ -15,12 +15,14 @@
 
 <div class="stats" wicket:id="stats">Showing 1-10 of 850</div>
 
-<a wicket:id="hits">
-	<h3 wicket:id="title">[Title]</h3>
-	<div wicket:id="summary">
-	</div>
-	<span wicket:id="linkLabel">http://someurl/</span>
-</a>
+<div wicket:id="hits" class="hit">
+	<a wicket:id="hitLink">
+		<h3 wicket:id="title">[Title]</h3>
+		<div wicket:id="summary">
+		</div>
+		<span wicket:id="linkLabel">http://someurl/</span>
+	</a>
+</div>
 
 <ul class="paging">
 	<li wicket:id="pages"><a wicket:id="pageLink"><span wicket:id="pageLabel">[1-10]</span></a></li>

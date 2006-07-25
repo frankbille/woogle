@@ -21,8 +21,11 @@ h2 {
 }
 
 .hit {
-	border: 1px solid silver;
 	margin-bottom: 20px;
+}
+
+.hit a {
+	border: 1px solid silver;
 	padding-left: 20px;
 	cursor: pointer;
 	display: blocK;
@@ -32,24 +35,24 @@ h2 {
 	clear: both;
 }
 
-.hit:hover {
+.hit a:hover {
 	background-color: #EEEEEE;
 }
 
-.hit h3 {
+.hit a h3 {
 	margin: 0px;
 	margin-bottom: 7px;
 	font-size: 14px;
 }
 
-.hit span {
+.hit a span {
 	font-size: 10px;
 	color: gray;
 	padding-top: 10px;
 	display: block;
 }
 
-.hit div {
+.hit a div {
 	font-size: 12px;
 }
 

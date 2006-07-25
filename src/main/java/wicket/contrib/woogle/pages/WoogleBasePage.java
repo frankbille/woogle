@@ -16,6 +16,7 @@ package wicket.contrib.woogle.pages;
 import wicket.markup.html.WebPage;
 import wicket.markup.html.link.BookmarkablePageLink;
 import wicket.markup.html.link.Link;
+import wicket.protocol.http.WebResponse;
 
 public abstract class WoogleBasePage extends WebPage {
 
@@ -28,4 +29,16 @@ public abstract class WoogleBasePage extends WebPage {
 		add(new BookmarkablePageLink("faqLink", FaqPage.class));
 		add(new BookmarkablePageLink("addSiteLink", AddSitePage.class));
 	}
+
+	@Override
+	protected void configureResponse() {
+		super.configureResponse();
+		
+		final WebResponse response = getWebRequestCycle().getWebResponse();
+		
+		response.setCharacterEncoding("iso-8859-1");
+		response.setContentType("text/html");
+	}
+	
+	
 }

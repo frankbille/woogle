@@ -34,6 +34,7 @@ import wicket.contrib.woogle.WoogleApplication;
 import wicket.contrib.woogle.domain.Site;
 import wicket.contrib.woogle.pages.SearchPage;
 import wicket.extensions.markup.html.repeater.RepeatingView;
+import wicket.markup.html.WebMarkupContainer;
 import wicket.markup.html.basic.Label;
 import wicket.markup.html.link.BookmarkablePageLink;
 import wicket.markup.html.link.ExternalLink;
@@ -100,21 +101,25 @@ public class SearchResult extends Panel {
 			Hit hit = hits.getHit(i);
 
 			try {
-				HitDetails details = nutch.getDetails(hit);
+				final HitDetails details = nutch.getDetails(hit);
 				ParseData data = nutch.getParseData(details);
 				String summary = nutch.getSummary(details, query);
 				final String url = details.getValue("url");
 
-				ExternalLink item = new ExternalLink("" + i, url);
-				hitsView.add(item);
+				// Container
+				final WebMarkupContainer hitContainer = new WebMarkupContainer("" + i);
+				hitsView.add(hitContainer);
+				
+				ExternalLink item = new ExternalLink("hitLink", url);
+				hitContainer.add(item);
 
-				String cssClass = "hit";
+				String cssClass = "";
 
 				// Type of link
 				for (Site site : sites) {
 					Matcher mat = site.getPattern().matcher(url);
 					if (mat.matches()) {
-						cssClass += " "+site.getCssClass();
+						cssClass += site.getCssClass();
 						break;
 					}
 				}
@@ -131,7 +136,6 @@ public class SearchResult extends Panel {
 
 				// Link
 				item.add(new Label("linkLabel", url));
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

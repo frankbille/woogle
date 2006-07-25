@@ -1,7 +1,12 @@
 package wicket.contrib.woogle;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import wicket.IRequestTarget;
 import wicket.PageParameters;
@@ -13,6 +18,9 @@ import wicket.request.target.component.PageRequestTarget;
 
 public class SearchUrlCodingStrategy implements IRequestTargetUrlCodingStrategy {
 
+	private static final Log log = LogFactory
+			.getLog(SearchUrlCodingStrategy.class);
+
 	public IRequestTarget decode(RequestParameters requestParameters) {
 		IRequestTarget target = null;
 
@@ -23,11 +31,19 @@ public class SearchUrlCodingStrategy implements IRequestTargetUrlCodingStrategy 
 		if (mat.matches()) {
 			String search = mat.group(1);
 
+			// try {
+			// System.out.println(search);
+			// search = URLDecoder.decode(search, "UTF-8");
+			// System.out.println(search);
+			// } catch (UnsupportedEncodingException e) {
+			// log.fatal("Choose a different encoding", e);
+			// }
+
 			PageParameters parameters = new PageParameters();
 			parameters.add("search", search);
-			
+
 			SearchPage page = new SearchPage(parameters);
-			
+
 			target = new PageRequestTarget(page);
 		}
 
@@ -42,15 +58,21 @@ public class SearchUrlCodingStrategy implements IRequestTargetUrlCodingStrategy 
 
 			PageParameters pageParameters = target.getPageParameters();
 			String search = pageParameters.getString("search");
-			
-			search = search.replace("/", "%2F");
-			search = search.replace("?", "%3F");
-			search = search.replace("\"", "%22");
-			search = search.replace("'", "%27");
-			search = search.replace("`", "%60");
-			
 			buffer.append("/q/");
-			buffer.append(search);
+
+			try {
+				String[] pierces = search.split(" ");
+
+				for (String pierce : pierces) {
+					if (buffer.length() > 3) {
+						buffer.append("%20");
+					}
+
+					buffer.append(URLEncoder.encode(pierce, "UTF-8"));
+				}
+			} catch (UnsupportedEncodingException e) {
+				log.fatal("Choose a different encoding", e);
+			}
 		}
 
 		return buffer.toString();
@@ -63,7 +85,7 @@ public class SearchUrlCodingStrategy implements IRequestTargetUrlCodingStrategy 
 			BookmarkablePageRequestTarget target = (BookmarkablePageRequestTarget) requestTarget;
 
 			PageParameters pp = target.getPageParameters();
-			
+
 			if (SearchPage.class.equals(target.getPageClass())) {
 				if (pp.getString("search") != null) {
 					matches = true;
