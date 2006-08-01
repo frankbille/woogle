@@ -18,6 +18,8 @@ import java.io.IOException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.nutch.db.WebDBReader;
+import org.apache.nutch.fs.LocalFileSystem;
 import org.apache.nutch.searcher.NutchBean;
 import org.apache.nutch.searcher.Query;
 
@@ -51,6 +53,8 @@ public class WoogleApplication extends WebApplication {
 	private SiteDAO siteDAO;
 	
 	private SearchDAO searchDAO;
+	
+	private long indexPages;
 
 	/**
 	 * @see wicket.Application#getHomePage()
@@ -70,7 +74,11 @@ public class WoogleApplication extends WebApplication {
 	public SearchDAO getSearchDAO() {
 		return searchDAO;
 	}
-
+	
+	public long getIndexPages() {
+		return indexPages;
+	}
+		
 	/**
 	 * @see wicket.protocol.http.WebApplication#getSessionFactory()
 	 */
@@ -92,6 +100,9 @@ public class WoogleApplication extends WebApplication {
 			log.debug(nutchDir);
 			nutch = new NutchBean(new File(nutchDir));
 			nutch.search(Query.parse("initialize indexer"), 1);
+			
+			WebDBReader reader = new WebDBReader(new LocalFileSystem(), new File(nutchDir, "db"));
+			indexPages = reader.numPages();
 		} catch (IOException e) {
 			log.error("Nutch couldn't be initialized", e);
 		}

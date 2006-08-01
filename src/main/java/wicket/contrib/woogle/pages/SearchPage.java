@@ -21,9 +21,11 @@ import wicket.contrib.woogle.WoogleSession;
 import wicket.contrib.woogle.components.SearchResult;
 import wicket.contrib.woogle.domain.Search;
 import wicket.markup.html.WebComponent;
+import wicket.markup.html.basic.Label;
 import wicket.markup.html.form.Button;
 import wicket.markup.html.form.Form;
 import wicket.markup.html.form.TextField;
+import wicket.markup.html.link.BookmarkablePageLink;
 import wicket.model.CompoundPropertyModel;
 import wicket.model.Model;
 import wicket.util.string.Strings;
@@ -43,6 +45,10 @@ public class SearchPage extends WoogleBasePage {
 		// Search form
 		add(new SearchForm("searchForm", search));
 
+		// Stats
+		add(new Label("indexPages", ""+WoogleApplication.get().getIndexPages()).setRenderBodyOnly(true));
+		add(new BookmarkablePageLink("addSite", AddSitePage.class));
+		
 		// Result place holder
 		if (searchString == null) {
 //			add(new TopSearches("result").setOutputMarkupId(true));

@@ -178,3 +178,18 @@ h2 {
 .trackback a {
 	color: #e9601a;
 }
+
+.stat {
+	margin-top: 30px;
+	text-align: center;
+	color: silver;
+	font-size: 11px;
+}
+
+.stat a {
+	color: silver;
+}
+
+.stat a:hover {
+	color: gray;
+}
