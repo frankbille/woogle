@@ -15,6 +15,7 @@ import wicket.request.RequestParameters;
 import wicket.request.target.coding.IRequestTargetUrlCodingStrategy;
 import wicket.request.target.component.BookmarkablePageRequestTarget;
 import wicket.request.target.component.PageRequestTarget;
+import wicket.util.string.Strings;
 
 public class SearchUrlCodingStrategy implements IRequestTargetUrlCodingStrategy {
 
@@ -26,25 +27,19 @@ public class SearchUrlCodingStrategy implements IRequestTargetUrlCodingStrategy 
 
 		String path = requestParameters.getPath();
 
-		Pattern pat = Pattern.compile("^\\/q\\/(.+)$");
+		Pattern pat = Pattern.compile("^\\/q\\/([^\\/]+)(\\/([0-9]+)|)$");
 		Matcher mat = pat.matcher(path);
 		if (mat.matches()) {
 			String search = mat.group(1);
-
-			// try {
-			// System.out.println(search);
-			// search = URLDecoder.decode(search, "UTF-8");
-			// System.out.println(search);
-			// } catch (UnsupportedEncodingException e) {
-			// log.fatal("Choose a different encoding", e);
-			// }
+			String page = mat.group(3);
 
 			PageParameters parameters = new PageParameters();
 			parameters.add("search", search);
+			parameters.add("page", page);
 
-			SearchPage page = new SearchPage(parameters);
+			SearchPage searchPage = new SearchPage(parameters);
 
-			target = new PageRequestTarget(page);
+			target = new PageRequestTarget(searchPage);
 		}
 
 		return target;
@@ -58,6 +53,7 @@ public class SearchUrlCodingStrategy implements IRequestTargetUrlCodingStrategy 
 
 			PageParameters pageParameters = target.getPageParameters();
 			String search = pageParameters.getString("search");
+			String page = pageParameters.getString("page");
 			buffer.append("/q/");
 
 			try {
@@ -72,6 +68,13 @@ public class SearchUrlCodingStrategy implements IRequestTargetUrlCodingStrategy 
 				}
 			} catch (UnsupportedEncodingException e) {
 				log.fatal("Choose a different encoding", e);
+			}
+			
+			if (Strings.isEmpty(page) == false) {
+				if (page.equals("0") == false && page.equals("1") == false) {
+					buffer.append("/");
+					buffer.append(page);
+				}
 			}
 		}
 

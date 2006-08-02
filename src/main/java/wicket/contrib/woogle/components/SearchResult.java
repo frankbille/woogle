@@ -27,8 +27,6 @@ import org.apache.nutch.searcher.NutchBean;
 import org.apache.nutch.searcher.Query;
 
 import wicket.PageParameters;
-import wicket.ajax.AjaxRequestTarget;
-import wicket.ajax.markup.html.AjaxLink;
 import wicket.behavior.SimpleAttributeModifier;
 import wicket.contrib.woogle.WoogleApplication;
 import wicket.contrib.woogle.domain.Site;
@@ -38,6 +36,7 @@ import wicket.markup.html.WebMarkupContainer;
 import wicket.markup.html.basic.Label;
 import wicket.markup.html.link.BookmarkablePageLink;
 import wicket.markup.html.link.ExternalLink;
+import wicket.markup.html.link.Link;
 import wicket.markup.html.list.Loop;
 import wicket.markup.html.panel.Panel;
 
@@ -47,6 +46,8 @@ public class SearchResult extends Panel {
 	/** Logging */
 	private static final Log log = LogFactory.getLog(SearchResult.class);
 
+	private final int entriesPerPage = 10;
+	
 	private Hits hits;
 
 	private Query query;
@@ -54,35 +55,40 @@ public class SearchResult extends Panel {
 	private int calcPage;
 
 	public SearchResult(String id, final String searchString) {
-		this(id, searchString, null, null, 0);
+		this(id, searchString, 0);
 	}
 
-	public SearchResult(String id, final String searchString, Hits hits, Query query,
-			final int offset) {
+	public SearchResult(String id, final String searchString, int page) {
 		super(id);
 
 		final NutchBean nutch = WoogleApplication.get().getNutch();
 
-		if (hits == null) {
-			try {
-				query = Query.parse(searchString);
+		try {
+			query = Query.parse(searchString);
 
-				hits = nutch.search(query, 100000);
-			} catch (Exception e) {
-				log.debug("Failed to search", e);
-			}
+			hits = nutch.search(query, 10000000);
+		} catch (Exception e) {
+			log.debug("Failed to search", e);
 		}
-		this.hits = hits;
-		this.query = query;
 
 		// Trackback
 		PageParameters parameters = new PageParameters();
 		parameters.add("search", searchString);
 		add(new BookmarkablePageLink("trackback", SearchPage.class, parameters));
 		
+		// Calculate offset
+		if (page > 0) {
+			page--;
+		}
+		int offset = page * entriesPerPage;
+		
+		if (offset >= hits.getLength()) {
+			offset = hits.getLength() - entriesPerPage;
+			page = offset / entriesPerPage;
+		}
 		
 		// Stats
-		String stats = "Showing "+(offset+1)+"-"+(offset+10)+" of "+hits.getLength();
+		String stats = "Showing "+(offset+1)+"-"+(offset+entriesPerPage)+" of "+hits.getLength();
 		add(new Label("stats", stats));
 		
 		// Result
@@ -97,7 +103,7 @@ public class SearchResult extends Panel {
 			site.setPattern(pat);
 		}
 		
-		for (int i = offset; offset + 10 > i && i < hits.getLength(); i++) {
+		for (int i = offset; offset + entriesPerPage > i && i < hits.getLength(); i++) {
 			Hit hit = hits.getHit(i);
 
 			try {
@@ -143,13 +149,12 @@ public class SearchResult extends Panel {
 		
 		
 		// Paging
-		int numOfPages = hits.getLength() / 10;
-		final int currentPage = offset / 10;
+		int numOfPages = hits.getLength() / entriesPerPage;
 		int numLoopPages = numOfPages > 9 ? 9 : numOfPages;
 		calcPage = 0;		
 		
-		if (currentPage > 4) {
-			calcPage = currentPage - 4;
+		if (page > 4) {
+			calcPage = page - 4;
 		}
 		
 		add(new Loop("pages", numLoopPages) {
@@ -157,27 +162,15 @@ public class SearchResult extends Panel {
 			
 			@Override
 			protected void populateItem(final LoopItem item) {
-				final int newOffset = calcPage * 10;
+				int displayPage = calcPage + 1;
 				
-//				if (newOffset != offset) {
-					AjaxLink link = new AjaxLink("pageLink") {
-						private static final long serialVersionUID = 1L;
-	
-						@Override
-						public void onClick(AjaxRequestTarget target) {
-							SearchResult result = new SearchResult(SearchResult.this.getId(), searchString, getHits(), getQuery(), newOffset);
-							
-							SearchResult.this.getParent().replace(result);
-							
-							target.addComponent(result);
-						}
-					};
-					item.add(link);
-					
-					link.add(new Label("pageLabel", ""+(calcPage+1)));
-//				} else {
-					
-//				}
+				PageParameters parameters = new PageParameters();
+				parameters.add("search", searchString);
+				parameters.add("page", ""+displayPage);
+				Link link = new BookmarkablePageLink("pageLink", SearchPage.class, parameters);
+				item.add(link);
+				
+				link.add(new Label("pageLabel", ""+displayPage));
 				
 				calcPage++;
 			}

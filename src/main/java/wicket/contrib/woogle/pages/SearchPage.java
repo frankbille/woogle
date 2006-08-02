@@ -15,6 +15,9 @@ package wicket.contrib.woogle.pages;
 
 import java.util.Date;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import wicket.PageParameters;
 import wicket.contrib.woogle.WoogleApplication;
 import wicket.contrib.woogle.WoogleSession;
@@ -28,16 +31,28 @@ import wicket.markup.html.form.TextField;
 import wicket.markup.html.link.BookmarkablePageLink;
 import wicket.model.CompoundPropertyModel;
 import wicket.model.Model;
+import wicket.util.string.StringValueConversionException;
 import wicket.util.string.Strings;
 
 public class SearchPage extends WoogleBasePage {
 	private static final long serialVersionUID = 1L;
+	
+	/** Logging */
+	private static final Log log = LogFactory.getLog(SearchPage.class);
 
 	public SearchPage(PageParameters parameters) {
 		// Check for search criterias in the parameters
 		String searchString = parameters.getString("search");
 		if (Strings.isEmpty(searchString)) {
 			searchString = null;
+		}
+		
+		int page = 0;
+		try {
+			page = parameters.getInt("page");
+		} catch (StringValueConversionException e) {
+			// Ok, but we log it.
+			log.debug("'page' parameter couldn't be converted to an int", e);
 		}
 
 		final Search search = new Search(searchString);
@@ -61,7 +76,7 @@ public class SearchPage extends WoogleBasePage {
 			WoogleApplication.get().getSearchDAO().save(search);
 
 			
-			add(new SearchResult("result", searchString).setOutputMarkupId(true));
+			add(new SearchResult("result", searchString, page).setOutputMarkupId(true));
 		}
 	}
 
