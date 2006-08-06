@@ -32,6 +32,7 @@ import wicket.contrib.woogle.WoogleApplication;
 import wicket.contrib.woogle.domain.Site;
 import wicket.contrib.woogle.pages.SearchPage;
 import wicket.extensions.markup.html.repeater.RepeatingView;
+import wicket.markup.html.WebComponent;
 import wicket.markup.html.WebMarkupContainer;
 import wicket.markup.html.basic.Label;
 import wicket.markup.html.link.BookmarkablePageLink;
@@ -53,15 +54,23 @@ public class SearchResult extends Panel {
 	private Query query;
 	
 	private int calcPage;
+	
+	private int offset;
+	
+	private NutchBean nutch;
+	
+	private int page;
+	
+	private String searchString;
 
-	public SearchResult(String id, final String searchString) {
+	public SearchResult(String id, String searchString) {
 		this(id, searchString, 0);
 	}
 
-	public SearchResult(String id, final String searchString, int page) {
+	public SearchResult(String id, String searchString, int page) {
 		super(id);
 
-		final NutchBean nutch = WoogleApplication.get().getNutch();
+		nutch = WoogleApplication.get().getNutch();
 
 		try {
 			query = Query.parse(searchString);
@@ -72,9 +81,13 @@ public class SearchResult extends Panel {
 		}
 
 		// Trackback
-		PageParameters parameters = new PageParameters();
-		parameters.add("search", searchString);
-		add(new BookmarkablePageLink("trackback", SearchPage.class, parameters));
+		if (hits.getLength() == 0) {
+			add(new WebComponent("trackback").setVisible(false));
+		} else {
+			PageParameters parameters = new PageParameters();
+			parameters.add("search", searchString);
+			add(new BookmarkablePageLink("trackback", SearchPage.class, parameters));
+		}	
 		
 		// Calculate offset
 		if (page > 0) {
@@ -87,11 +100,34 @@ public class SearchResult extends Panel {
 			page = offset / entriesPerPage;
 		}
 		
+		if (offset < 0) {
+			offset = 0;
+			page = 0;
+		}
+		
+		this.offset = offset;
+		this.page = page;
+		this.searchString = searchString;
+		
 		// Stats
-		String stats = "Showing "+(offset+1)+"-"+(offset+entriesPerPage)+" of "+hits.getLength();
+		String stats;
+		if (hits.getLength() == 0) {
+			stats = "No results found.";
+		} else {
+			stats = "Showing "+(offset+1)+"-"+(offset+entriesPerPage)+" of "+hits.getLength();
+		}
 		add(new Label("stats", stats));
 		
 		// Result
+		if (hits.getLength() == 0) {
+			add(new WebComponent("hits").setVisible(false));
+			add(new WebComponent("pages").setVisible(false));
+		} else {
+			showResult();
+		}
+	}
+
+	private void showResult() {
 		RepeatingView hitsView = new RepeatingView("hits");
 		add(hitsView);
 
@@ -176,13 +212,4 @@ public class SearchResult extends Panel {
 			}
 		});
 	}
-
-	public Hits getHits() {
-		return hits;
-	}
-
-	public Query getQuery() {
-		return query;
-	}
-
 }
