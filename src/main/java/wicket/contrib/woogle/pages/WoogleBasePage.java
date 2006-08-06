@@ -28,6 +28,7 @@ public abstract class WoogleBasePage extends WebPage {
 		// Menus
 		add(new BookmarkablePageLink("faqLink", FaqPage.class));
 		add(new BookmarkablePageLink("addSiteLink", AddSitePage.class));
+		add(new BookmarkablePageLink("statsLink", StatsPage.class));
 	}
 
 	@Override

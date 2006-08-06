@@ -1,13 +1,13 @@
-html,body {
+HTML,BODY {
 	font-family: Verdana, Trebuchet MS, Arial, sans-serif;
 	font-size: 12px;
 }
 
-h1 {
+H1 {
 	text-align: center;
 }
 
-h2 {
+H2 {
 	margin-bottom: 5px;
 }
 
@@ -24,7 +24,7 @@ h2 {
 	margin-bottom: 20px;
 }
 
-.hit a {
+.hit A {
 	border: 1px solid silver;
 	padding-left: 20px;
 	cursor: pointer;
@@ -35,24 +35,24 @@ h2 {
 	clear: both;
 }
 
-.hit a:hover {
+.hit A:hover {
 	background-color: #EEEEEE;
 }
 
-.hit a h3 {
+.hit A H3 {
 	margin: 0px;
 	margin-bottom: 7px;
 	font-size: 14px;
 }
 
-.hit a span {
+.hit A SPAN {
 	font-size: 10px;
 	color: gray;
 	padding-top: 10px;
 	display: block;
 }
 
-.hit a div {
+.hit A DIV {
 	font-size: 12px;
 }
 
@@ -61,7 +61,7 @@ h2 {
 	border-color: #999900;
 }
 
-.irclogs h3 {
+.irclogs H3 {
 	color: #999900;
 }
 
@@ -70,7 +70,7 @@ h2 {
 	border-color: #009900;
 }
 
-.wiki h3 {
+.wiki H3 {
 	color: #009900;
 }
 
@@ -79,7 +79,7 @@ h2 {
 	border-color: #0000FF;
 }
 
-.website h3 {
+.website H3 {
 	color: #0000FF;
 }
 
@@ -88,7 +88,7 @@ h2 {
 	border-color: #FF0000;
 }
 
-.javadoc h3 {
+.javadoc H3 {
 	color: #FF0000;
 }
 
@@ -97,7 +97,7 @@ h2 {
 	border-color: #9900FF;
 }
 
-.mail h3 {
+.mail H3 {
 	color: #9900FF;
 }
 
@@ -106,7 +106,7 @@ h2 {
 	border-color: #0099CC;
 }
 
-.blogs h3 {
+.blogs H3 {
 	color: #0099CC;
 }
 
@@ -115,11 +115,11 @@ h2 {
 	padding: 0;
 }
 
-.paging li {
+.paging LI {
 	display: inline;
 }
 
-.paging li a {
+.paging LI A {
 	padding-top: 20px;
 	background: url(../img/wicket_logo_16x16.png) no-repeat top center;
 	font-size: 12px;
@@ -131,7 +131,7 @@ h2 {
 	text-align: center;
 }
 
-.paging li a:hover {
+.paging LI A:hover {
 	text-decoration: underline;
 }
 
@@ -139,7 +139,7 @@ h2 {
 	text-align: center;
 }
 
-.menu a {
+.menu A {
 	color: #e9601a;
 	padding-left: 5px;
 	padding-right: 5px;
@@ -147,7 +147,7 @@ h2 {
 	text-decoration: none;
 }
 
-.menu a:hover {
+.menu A:hover {
 	text-decoration: underline;
 }
 
@@ -166,7 +166,7 @@ h2 {
 	font-size: 12px;
 }
 
-.faq a {
+.faq A {
 	color: #e9601a;
 }
 
@@ -175,7 +175,7 @@ h2 {
 	margin-bottom: 15px;
 }
 
-.trackback a {
+.trackback A {
 	color: #e9601a;
 }
 
@@ -186,10 +186,22 @@ h2 {
 	font-size: 11px;
 }
 
-.stat a {
+.stat A {
 	color: silver;
 }
 
-.stat a:hover {
+.stat A:hover {
 	color: gray;
+}
+
+.gradient DIV {
+	background: white url(../img/gradient_left.png) repeat-x top left;
+	height: 16px;
+}
+
+.gradient DIV DIV {
+	background: white url(../img/gradient_back.png) repeat-x top right;
+	height: 16px;
+	margin-left: 4px;
+	padding-right: 4px;
 }

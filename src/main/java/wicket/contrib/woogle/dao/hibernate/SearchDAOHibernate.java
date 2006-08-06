@@ -1,5 +1,7 @@
 package wicket.contrib.woogle.dao.hibernate;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
@@ -28,11 +30,28 @@ public class SearchDAOHibernate extends HibernateDaoSupport implements
 
 	@SuppressWarnings("unchecked")
 	public List<Search> listTopSearches() {
-		String hql = "SELECT s FROM Search s GROUP BY s.search ORDER BY COUNT(s.search) DESC";
+		// Get total number of searches
+		String hql = "SELECT COUNT(s) FROM Search s";
+		
+		int countResult = (Integer) getHibernateTemplate().find(hql).get(0);
+				
+		hql = "SELECT s, COUNT(s.search) FROM Search s GROUP BY s.search ORDER BY COUNT(s.search) DESC";
 		
 		getHibernateTemplate().setMaxResults(10);
 		
-		return getHibernateTemplate().find(hql);
+		List result = getHibernateTemplate().find(hql);
+		List<Search> searches = new ArrayList<Search>();
+		for (Iterator iter = result.iterator(); iter.hasNext();) {
+			Object[] element = (Object[]) iter.next();
+			
+			Search search = (Search) element[0];
+			int searchCount = (Integer) element[1];
+			double pct = (double)searchCount/(double)countResult;
+			search.setPct((int) Math.round(pct*100));
+			searches.add(search);
+		}
+		
+		return searches;
 	}
 
 }

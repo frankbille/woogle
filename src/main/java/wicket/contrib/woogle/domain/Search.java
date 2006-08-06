@@ -10,6 +10,8 @@ public class Search {
 	private Date searchTime;
 
 	private String sessionId;
+	
+	private int pct;
 
 	public Search() {
 	}
@@ -48,5 +50,13 @@ public class Search {
 
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
+	}
+
+	public int getPct() {
+		return pct;
+	}
+
+	public void setPct(int pct) {
+		this.pct = pct;
 	}
 }

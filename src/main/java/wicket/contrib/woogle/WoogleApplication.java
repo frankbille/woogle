@@ -30,6 +30,7 @@ import wicket.contrib.woogle.dao.SiteDAO;
 import wicket.contrib.woogle.pages.AddSitePage;
 import wicket.contrib.woogle.pages.FaqPage;
 import wicket.contrib.woogle.pages.SearchPage;
+import wicket.contrib.woogle.pages.StatsPage;
 import wicket.protocol.http.WebApplication;
 
 /**
@@ -110,6 +111,7 @@ public class WoogleApplication extends WebApplication {
 		
 		mountBookmarkablePage("/faq", FaqPage.class);
 		mountBookmarkablePage("/add", AddSitePage.class);
+		mountBookmarkablePage("/stats", StatsPage.class);
 		mount("/q", new SearchUrlCodingStrategy());
 	}
 
